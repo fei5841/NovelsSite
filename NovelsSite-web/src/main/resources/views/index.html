@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+</head>
+<body>
+	<p th:id="json" th:text="'Token is : ' + ${token} + '!'" >token</p>
+	<a th:href="'javascript:aclick()'">aclick</a>
+</body>
+<script type="text/javascript" th:replace="thymeleaf/basepath::basepath"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+function aclick(){
+	alert(basepath);
+	$.ajax({
+        type: "post",
+        dataType: "json",
+        url: basepath+"/getUser",
+        data: {"id":1},
+        success: function(data) {
+        	$("#json").html(data.username+","+data.gender+","+data.role+","+data+","+JSON.stringify(data));
+        }
+    });
+}
+</script>
+</html>
