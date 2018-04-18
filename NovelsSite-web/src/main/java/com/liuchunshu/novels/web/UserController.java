@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.liuchunshu.novels.common.JsonUtils;
+import com.liuchunshu.novels.common.JwtToken;
 import com.liuchunshu.novels.model.UserEntity;
 import com.liuchunshu.novels.service.UserService;
 
@@ -30,7 +31,8 @@ public class UserController {
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public ModelAndView index() {
 		ModelAndView model = new ModelAndView("index");
-		model.addObject("token", screat);
+		String token=JwtToken.createToken(screat);
+		model.addObject("token", token);
 		logger.info("Hello World,index request!");
 		return model;
 	}

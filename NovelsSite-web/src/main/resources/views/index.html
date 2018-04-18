@@ -5,21 +5,41 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<p th:id="json" th:text="'Token is : ' + ${token} + '!'" >token</p>
-	<a th:href="'javascript:aclick()'">aclick</a>
+<!-- 	<p th:id="json" th:text="'Token is : ' + ${token} + '!'" >token</p> -->
+	<div  th:text="'Token is : ' + ${token} + '!'" th:style="'width: 600px;word-wrap:break-word;'">Token is : ${token}!</div>
+	<div th:id="json"></div>
+	<a th:href="'javascript:getUsers()'">getUsers</a>
+	<a th:href="'javascript:getUserbyid()'">getUsers</a>
 </body>
 <script type="text/javascript" th:replace="thymeleaf/basepath::basepath"></script>
 <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
 <script type="text/javascript" th:inline="javascript">
-function aclick(){
-	alert(basepath);
+function getUserbyid(){
 	$.ajax({
         type: "post",
         dataType: "json",
         url: basepath+"/getUser",
         data: {"id":1},
         success: function(data) {
-        	$("#json").html(data.username+","+data.gender+","+data.role+","+data+","+JSON.stringify(data));
+        	$("#json").html("这是getUser,id为1:<br />");
+        	$("#json").append(data.username+","+data.gender+","+data.role+","+data+","+JSON.stringify(data));
+        }
+    });
+}
+
+function getUsers(){
+	$.ajax({
+        type: "post",
+        dataType: "json",
+        url: basepath+"/getUsers",
+//         data: {"id":1},
+        success: function(data) {
+        	$("#json").html("这是getUsers:<br />");
+        	if(data != null){
+        		for(var i=0;i<data.length;i++){
+        			$("#json").append(data[i].username+","+data[i].gender+","+data[i].role+","+data[i]+","+JSON.stringify(data[i])+"<br />");
+        		}
+        	}
         }
     });
 }
